@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(), SPListener {
 
     val TAG = "MainActivity"
     lateinit var tvTemp: TextView
+    lateinit var tvHumidity: TextView
     lateinit var tvUpdateInfo: TextView
     lateinit var tvStatus: TextView
     lateinit var ivRefresh: ImageView
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity(), SPListener {
 
     private fun initialize() {
         tvTemp = findViewById(R.id.tvTemp)
+        tvHumidity = findViewById(R.id.tvHumidity)
         tvUpdateInfo = findViewById(R.id.tvUpdateInfo)
         tvStatus = findViewById(R.id.tvStatus)
         ivRefresh = findViewById(R.id.ivRefresh)
@@ -115,7 +117,8 @@ class MainActivity : AppCompatActivity(), SPListener {
     override fun onResponse(responseData: ResponseData) {
         minTemp = responseData.minTemp
         maxTemp = responseData.maxTemp
-        tvTemp.setText("${responseData.currenTemp} \u2103")
+        tvTemp.setText("${responseData.currentTemp} \u2103")
+        tvHumidity.setText("${responseData.humidity}")
         tvUpdateInfo.setText("Last updated on: ${responseData.updatedAt}")
         if (responseData.fanStatus == 1) {
             tvStatus.setText("On")

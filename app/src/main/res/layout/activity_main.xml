@@ -80,27 +80,58 @@
                     android:id="@+id/tvTempLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sensed Temperature"
+                    android:text="Temperature &amp; Humidity"
                     android:textSize="20sp"
                     android:padding="10dp"
                     android:textColor="@color/black"/>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tvTemp"
+            <RelativeLayout
+                android:id="@+id/rlMiddle"
                 android:layout_below="@+id/rlTemp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:text="0\u2103"
-                android:drawableLeft="@drawable/baseline_wb_sunny_24"
-                android:drawablePadding="3dp"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:padding="10dp"
-                android:textColor="@color/red"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="0\u2103"
+                    android:drawableLeft="@drawable/baseline_wb_sunny_24"
+                    android:drawablePadding="3dp"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:padding="10dp"
+                    android:textColor="@color/red"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="100dp"
+                    android:background="@color/black"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/tvHumidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="20dp"
+                    android:text="0"
+                    android:drawableLeft="@drawable/humidity"
+                    android:drawablePadding="3dp"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:padding="10dp"
+                    android:textColor="@color/red"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
