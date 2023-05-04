@@ -1,0 +1,106 @@
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
+#include <ESP8266HTTPClient.h>
+#include <WiFiClient.h>
+
+//#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#include "DHT.h"
+
+#define DHTTYPE DHT11  // DHT 11
+// DHT Sensor
+uint8_t DHTPin = D8;
+
+const char* ssid = "Fahim";         // Enter SSID here
+const char* password = "lkjh0987";  //Enter Password here
+
+// Initialize DHT sensor.
+DHT dht(DHTPin, DHTTYPE);
+ESP8266WiFiMulti WiFiMulti;
+
+
+
+float Temperature;
+float Humidity;
+
+int thresholdTemp = 0;
+String fanStatus = "0";
+
+
+
+
+void setup() {
+  Serial.begin(115200);
+  //delay(100);
+  pinMode(DHTPin, INPUT);
+  pinMode(D0, OUTPUT);
+
+
+  dht.begin();
+
+  //connect to your local wi-fi network
+  WiFi.begin(ssid, password);
+
+  //check wi-fi is connected to wi-fi network
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    //Serial.print(".");
+  }
+  //erial.println("");
+  //Serial.println("WiFi connected..!");
+  //Serial.print("Got IP: ");
+  //Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  Temperature = dht.readTemperature();  //  temperature
+  Humidity = dht.readHumidity();        //  humidity
+
+  Serial.println("T : " + String(Temperature));
+  Serial.println("H : " + String(Humidity));
+  Serial.println("");
+
+  HTTP_Data_Send();
+
+
+  if (Temperature <= (float)thresholdTemp) {
+    digitalWrite(D0, HIGH);
+    fanStatus = "1";
+  }
+  else
+  {
+    digitalWrite(D0, LOW);
+    fanStatus = "0";
+  }
+
+
+
+  delay(1000);
+}
+
+
+
+void HTTP_Data_Send() {
+
+  WiFiClient client;
+  HTTPClient http;
+
+  String url = "http://domainbangla.com/api/update?temp=" + String(Temperature) + "&fan_status="+ fanStatus +"&humidity=" + String(Humidity);
+
+  Serial.println(url);
+
+
+  if (http.begin(client, url)) {
+    int httpCode = http.GET();
+
+    //if (httpCode > 0) {
+
+      String payload = http.getString();
+      thresholdTemp = payload.toInt();
+      Serial.println(thresholdTemp);
+    //}
+    http.end();
+  }
+
+}
